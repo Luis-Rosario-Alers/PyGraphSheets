@@ -10,7 +10,7 @@ import gspread
 # This code is made to have access to the Google spreadsheets API
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 # This gets your credentials from service account and authorizes with those credentials
-creds = Credentials.from_service_account_file('credentials.json', scopes=SCOPES)
+creds = Credentials.from_service_account_file('secrets.env', scopes=SCOPES)
 client = gspread.authorize(creds)
 # I specify my sheet using by inputting my sheet id so that the program knows specifically which sheet I am accessing.
 sheet_id = '1rsQd4WuuAqllnB4vlJTEV5GnC2IuRBG_CQOhcgpA8dk'
