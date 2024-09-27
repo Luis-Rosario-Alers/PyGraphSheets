@@ -1,37 +1,22 @@
-import pandas as pd
-import matplotlib as plt
-import os
-
-from google.oauth2 import service_account
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+from google.oauth2.service_account import Credentials
+import matplotlib
+import gspread
 
+# This code is made to have access to the Google spreadsheets API
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
-SERVICE_ACCOUNT_FILE = 'credentials.json'
+# This gets your credentials from service account and authorizes with those credentials
+creds = Credentials.from_service_account_file('credentials.json', scopes=SCOPES)
+client = gspread.authorize(creds)
+# I specify my sheet using by inputting my sheet id so that the program knows specifically which sheet I am accessing.
+sheet_id = '1rsQd4WuuAqllnB4vlJTEV5GnC2IuRBG_CQOhcgpA8dk'
+worksheet = client.open_by_key(sheet_id)
 
-# Authenticate and create a service object
-credentials = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=SCOPES)
-service = build('sheets', 'v4', credentials=credentials)
-
-# The ID of your spreadsheet and the range of data you want to retrieve
-SPREADSHEET_ID = '1rsQd4WuuAqllnB4vlJTEV5GnC2IuRBG_CQOhcgpA8dk'
-RANGE_NAME = 'Sheet1!A1:B10'  # Adjust the range as necessary
-
-# Call the Sheets API to get the data
-sheet = service.spreadsheets()
-result = sheet.values().get(spreadsheetId=SPREADSHEET_ID, range=RANGE_NAME).execute()
-values = result.get('values', [])
-
-if not values:
-    print('No data found.')
-else:
-    # Convert the data into a DataFrame
-    df = pd.DataFrame(values[1:], columns=values[0])  # Use the first row as column headers
-    print(df)
-
-    # Plot the data
-    df.plot(kind='line', x='Date', y='Value')  # Adjust column names as needed
-    plt.title('Sample Data from Google Sheets')
-    plt.xlabel('Date')
-    plt.ylabel('Value')
-    plt.show()
+# This fetches data values from the necessary columns and this step is necessary for verification that the necessary values have been fetched.
+values_List = worksheet.sheet1.col_values(1), worksheet.sheet1.col_values(3), worksheet.sheet1.col_values(6), worksheet.sheet1.col_values(7), worksheet.sheet1.col_values(8), worksheet.sheet1.col_values(9), worksheet.sheet1.col_values(11)
+data = values_List
+print(data)
