@@ -1,3 +1,8 @@
 # created by virtualenv automatically
 *.env
-secrets.env
+PyGraphSheets/secrets.env
+PyGraphSheets/.env
+qodana.yaml
+tests/secrets.env
+tests/.env
+tests/secrets_tests.env

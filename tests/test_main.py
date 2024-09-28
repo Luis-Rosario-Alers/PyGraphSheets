@@ -6,7 +6,7 @@ from builtins import isinstance
 import self
 from dotenv import load_dotenv
 
-load_dotenv('secrets.env')
+load_dotenv('secrets_tests.env')
 
 
 class jsonFileTest(unittest.TestCase):
