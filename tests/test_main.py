@@ -3,10 +3,9 @@ import os
 import unittest
 import unittest.mock as mock
 from builtins import isinstance
-import self
 from dotenv import load_dotenv
 
-load_dotenv('secrets_tests.env')
+load_dotenv("secrets_tests.env")
 
 
 class jsonFileTest(unittest.TestCase):
@@ -83,14 +82,19 @@ class apiAuthorizationProcess(unittest.TestCase):
         self.assertEqual(result_of_credentials, json_data)
 
         # Arrange
-        with mock.patch('PyGraphSheets.main.Credentials') as mock_creds:
+        with mock.patch("PyGraphSheets.main.Credentials") as mock_creds:
             # Arrange
             expected_result_of_credentials = mock.Mock()
-            mock_creds.from_service_account_file.return_value = expected_result_of_credentials
+            mock_creds.from_service_account_file.return_value = (
+                expected_result_of_credentials
+            )
             # Act
-            result_of_credentials = mock_creds.from_service_account_file(file_path,
-                                                                         scopes=['https://www.googleapis.com/auth/spreadsheets'])
-            print(f"Mocked Credentials result: {result_of_credentials}")  # Debugging line
+            result_of_credentials = mock_creds.from_service_account_file(
+                file_path, scopes=["https://www.googleapis.com/auth/spreadsheets"]
+            )
+            print(
+                f"Mocked Credentials result: {result_of_credentials}"
+            )  # Debugging line
             # Assert
             self.assertIsNotNone(result_of_credentials)
             self.assertEqual(result_of_credentials, expected_result_of_credentials)
@@ -102,26 +106,32 @@ class apiAuthorizationProcess(unittest.TestCase):
                 is_sheet_id_a_string_result_expected = isinstance(sheet_id, str)
                 # Act
                 is_sheet_id_a_string_result = isinstance(sheet_id, str)
-                print(f"Result from using sheet_id env variable: {sheet_id}")  # Debugging line
+                print(
+                    f"Result from using sheet_id env variable: {sheet_id}"
+                )  # Debugging line
                 # Assert
                 self.assertIsNotNone(is_sheet_id_a_string_result)
-                self.assertEqual(is_sheet_id_a_string_result, is_sheet_id_a_string_result_expected)
+                self.assertEqual(
+                    is_sheet_id_a_string_result, is_sheet_id_a_string_result_expected
+                )
             except TypeError as error:
-                print(f'Not correct data type: {error}')
+                print(f"Not correct data type: {error}")
             except None as error:
-                print(f'No data: {error}')
+                print(f"No data: {error}")
             except Exception as error:
-                print(f'An unexpected error occurred: {error}')
+                print(f"An unexpected error occurred: {error}")
 
             # Arrange
-            with mock.patch('PyGraphSheets.main.worksheet') as mock_worksheet:
+            with mock.patch("PyGraphSheets.main.worksheet") as mock_worksheet:
                 expected_result = mock_worksheet.sheet1
                 # Act
                 is_sheet_id_a_string_result = mock_worksheet.sheet1
                 # Assert
                 self.assertIsNotNone(is_sheet_id_a_string_result)
-                self.assertEqual(is_sheet_id_a_string_result, expected_result)  # Debugging line
+                self.assertEqual(
+                    is_sheet_id_a_string_result, expected_result
+                )  # Debugging line
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
