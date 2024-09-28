@@ -3,22 +3,27 @@
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
 Please note we have a [code of conduct](CODE_OF_CONDUCT.md), please follow it in all your interactions with the project.
 
-## Development environment setup
 
-> **[?]**
-> Proceed to describe how to setup local development environment.
-> e.g:
-
-To set up a development environment, please follow these steps:
-
-1. Clone the repo
-
+## Development Environment Setup
+1. **Clone the repository**:
    ```sh
    git clone https://github.com/Luis-Rosario-Alers/PyGraphSheets
-   ```
-
-2. TODO
-
+   cd PyGraphSheets
+2. **Create and activate a virtual environment**:
+    ```sh
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows use `.venv\Scripts\activate`
+3. **Install the dependencies**:
+    ```sh
+   pip install -r requirements.txt
+4. **Set up environment variables**:
+    Create a `.env` file in the root directory and add the necessary environment variables:
+    ```sh
+   FILE_PATH=path/to/your/credentials.json
+   SHEET_ID=your_google_sheet_id
+5. **Run the application**:
+    ```sh
+   python PyGraphSheets/main.py
 ## Issues and feature requests
 
 You've found a bug in the source code, a mistake in the documentation or maybe you'd like a new feature?Take a look at [GitHub Discussions](https://github.com/Luis-Rosario-Alers/PyGraphSheets/discussions) to see if it's already being discussed.  You can help us by [submitting an issue on GitHub](https://github.com/Luis-Rosario-Alers/PyGraphSheets/issues). Before you create an issue, make sure to search the issue archive -- your issue may have already been addressed!
