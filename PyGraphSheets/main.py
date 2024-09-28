@@ -30,8 +30,14 @@ def get_value_from_json(file_path):
     Returns:
         dict: The content of the JSON file.
     """
-    with open(file_path) as f:
-        return json.load(f)
+    try:
+        with open(file_path) as f:
+            json_Data = json.load(f)
+            return json_Data
+    except json.JSONDecoderError as error:
+        print(f"An error occurred: {error}")
+    except Exception as error:
+        print(f"An error occurred: {error}")
 
 # Define the scope for accessing Google Sheets API
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
@@ -57,7 +63,7 @@ try:
     col11 = worksheet.sheet1.col_values(11)
     data = (col1, col3, col6, col7, col8, col9, col11)
     print(data)
- except HttpError as error:
+except HttpError as error:
     print(f"An error occurred: {error}")
 # Convert column values to integers, ignoring empty values
 co1 = list(map(int, filter(None, col1[1:])))

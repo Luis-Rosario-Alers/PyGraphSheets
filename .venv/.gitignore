@@ -1,4 +1,4 @@
 # created by virtualenv automatically
 .env
-credentials.json
-secrets.env
+PyGraphSheets/credentials.json
+PyGraphSheets/secrets.env
