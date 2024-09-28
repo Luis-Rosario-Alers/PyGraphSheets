@@ -1,6 +1,3 @@
-from google.auth.transport.requests import Request
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from google.oauth2.service_account import Credentials
 import matplotlib.pyplot as plt
@@ -9,16 +6,19 @@ import os
 import json
 from dotenv import load_dotenv
 
-# Load environment variables from 'secrets.env' file
+# Load environment variables from env file
 load_dotenv('secrets.env')
 
+print(os.getenv("SHEET_ID"))
 # Get the file path from the environment variable
+
 sheet_id = os.getenv("SHEET_ID")
 file_path = os.getenv("FILE_PATH")
 if not file_path:
     raise ValueError("FILE_PATH environment variable is not set or is empty.")
 elif not os.path.exists(file_path):
     raise FileNotFoundError(f"File path {file_path} does not exist.")
+
 
 def get_value_from_json(file_path):
     """
@@ -32,12 +32,17 @@ def get_value_from_json(file_path):
     """
     try:
         with open(file_path) as f:
-            json_Data = json.load(f)
-            return json_Data
-    except json.JSONDecoderError as error:
-        print(f"An error occurred: {error}")
+            json_data = json.load(f)
+            return json_data
+    except json.JSONDecodeError as error:
+        print(f"An error occurred while decoding JSON: {error}")
+    except FileNotFoundError as error:
+        print(f"File not found: {error}")
     except Exception as error:
-        print(f"An error occurred: {error}")
+        print(f"An unexpected error occurred: {error}")
+    finally:
+        print('Attempted to read JSON file.')
+
 
 # Define the scope for accessing Google Sheets API
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
@@ -46,31 +51,30 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 creds = Credentials.from_service_account_file(file_path, scopes=SCOPES)
 client = gspread.authorize(creds)
 
-print(client)
 
 # Specify the Google Sheet by its ID
-sheet_id = sheet_id
 worksheet = client.open_by_key(sheet_id)
 
 # Fetch data values from the necessary columns
 try:
-    col1 = worksheet.sheet1.col_values(1)
-    col3 = worksheet.sheet1.col_values(3)
-    col6 = worksheet.sheet1.col_values(6)
-    col7 = worksheet.sheet1.col_values(7)
-    col8 = worksheet.sheet1.col_values(8)
-    col9 = worksheet.sheet1.col_values(9)
-    col11 = worksheet.sheet1.col_values(11)
-    data = (col1, col3, col6, col7, col8, col9, col11)
+    columns = [1, 3, 6, 7, 8, 9, 11]
+    data = [worksheet.sheet1.col_values(col) for col in columns]
     print(data)
 except HttpError as error:
-    print(f"An error occurred: {error}")
+    print(f"An error occurred with the Google Sheets API: {error}")
+except gspread.exceptions.SpreadsheetNotFound as error:
+    print(f"Spreadsheet not found: {error}")
+except Exception as error:
+    print(f"An unexpected error occurred: {error}")
+
 # Convert column values to integers, ignoring empty values
-co1 = list(map(int, filter(None, col1[1:])))
-co3 = list(map(int, filter(None, col3[1:])))
+col1plot = list(map(int, filter(None, data[0][1:])))
+print(col1plot)
+col3plot = list(map(int, filter(None, data[1][1:])))
+print(col3plot)
 
 # Plot the data
-plt.plot(co1, co3, label='Before Caffeine vs. After Caffeine')
+plt.plot(col1plot, col3plot, label='Before Caffeine vs. After Caffeine')
 plt.xlabel('Before Caffeine')
 plt.ylabel('After Caffeine')
 plt.title('Before Caffeine vs. After Caffeine')
