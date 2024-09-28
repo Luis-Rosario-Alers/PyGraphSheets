@@ -83,9 +83,15 @@
 ## Getting Started
 
 ### Prerequisites
-
-> **[?]**
-> What are the project requirements/dependencies?
+```markdown
+> This project depends on the following Python packages:
+- `google-auth`
+- `google-auth-oauthlib`
+- `google-api-python-client`
+- `matplotlib`
+- `gspread`
+- `python-dotenv`
+```
 
 ### Installation
 
