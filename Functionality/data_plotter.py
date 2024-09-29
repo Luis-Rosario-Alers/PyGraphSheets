@@ -18,7 +18,7 @@ def plot_data(data, plot_settings, label, directory, file_name):
         directory (str): Directory to save the plot.
         file_name (str): File name to save the plot.
     """
-    for sheet_name, sheet_data in data.items():
+    for _, sheet_data in data.items():
         col1plot = list(map(int, filter(None, sheet_data[0][1:])))
         col3plot = list(map(int, filter(None, sheet_data[1][1:])))
         plt.plot(col1plot, col3plot, label=label)

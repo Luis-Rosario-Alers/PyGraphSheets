@@ -6,7 +6,6 @@ import os
 import logging
 from google_sheets_fetcher import fetch_data_from_sheets
 from data_plotter import plot_data
-import simpleaudio as sa
 
 class App(QWidget):
     def __init__(self):
@@ -133,8 +132,7 @@ class App(QWidget):
 
             sheet_names = self.sheet_names.text().split(",")
             data = fetch_data_from_sheets(file_path, sheet_id, sheet_names, columns)
-            logger.info(data)
-
+            logger.info("%s", data)
             if not os.path.exists(self.directory.text()):
                 os.makedirs(self.directory.text())
                 logger.info(f"Directory created: {self.directory.text()}")
@@ -150,11 +148,10 @@ class App(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    icon_path = 'icon.ico'
-    if os.path.exists(icon_path):
-        app.setWindowIcon(QIcon(icon_path))  # Set the taskbar icon
+    if os.path.exists('icon.ico'):
+        app.setWindowIcon(QIcon('icon.ico'))  # Set the taskbar icon
     else:
-        print(f"Icon file not found: {icon_path}")
+        print(f"Icon file not found...")
     ex = App()
     ex.show()
     sys.exit(app.exec_())
