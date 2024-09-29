@@ -151,7 +151,7 @@ if __name__ == "__main__":
     if os.path.exists('icon.ico'):
         app.setWindowIcon(QIcon('icon.ico'))  # Set the taskbar icon
     else:
-        print(f"Icon file not found...")
+        print("Icon file not found...")
     ex = App()
     ex.show()
     sys.exit(app.exec_())
