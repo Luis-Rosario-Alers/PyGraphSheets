@@ -36,7 +36,8 @@ def fetch_data_from_sheets(file_path, sheet_id, sheet_names, columns):
         for sheet_name in sheet_names:
             sheet_name = sheet_name.strip()
             if sheet_name not in available_sheet_names:
-                logger.error(f"Worksheet '{sheet_name}' not found in available sheets.")
+                logger.error(
+                    f"Worksheet '{sheet_name}' not found in available sheets.")
                 continue
 
             worksheet = sheet.worksheet(sheet_name)

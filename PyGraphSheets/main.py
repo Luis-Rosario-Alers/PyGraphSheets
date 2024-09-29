@@ -36,7 +36,8 @@ if not sheet_id:
     raise ValueError("SHEET_ID is not set in the configuration file.")
 
 # Fetch data from Google Sheets
-sheet_names = input("Please enter the sheet names separated by commas: ").split(",")
+sheet_names = input(
+    "Please enter the sheet names separated by commas: ").split(",")
 data = fetch_data_from_sheets(file_path, sheet_id, sheet_names, columns)
 logger.info(data)
 
@@ -51,7 +52,8 @@ if not os.path.exists(directory):
 else:
     logger.info(f"Directory already exists: {directory}")
 
-file_name = input("Please enter the file name to save the plot (e.g., plot.png): ")
+file_name = input(
+    "Please enter the file name to save the plot (e.g., plot.png): ")
 logger.info(f"User entered file name: {file_name}")
 
 plot_data(data, plot_settings, label, directory, file_name)
