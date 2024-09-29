@@ -2,12 +2,19 @@ version = 1
 
 [[analyzers]]
 name = "python"
+dependency_file_paths = ["google-api-python-client", "google-auth-httplib2", "google-auth-oauthlib", "matplotlib"]
 
   [analyzers.meta]
   runtime_version = "3.x.x"
+  skip_doc_coverage = ["module", "magic", "init"]
+  type_checker = "mypy"
+
 
 [[analyzers]]
 name = "javascript"
+
+type_checker = "mypy"
+
 
 [[analyzers]]
 name = "shell"

@@ -1,5 +1,4 @@
-# give me the requierements of my project
-# google-api-python-client
-# google-auth-httplib2
-# google-auth-oauthlib
-# matplotlib
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib
+matplotlib
