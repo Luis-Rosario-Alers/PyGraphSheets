@@ -6,7 +6,6 @@ import os
 import logging
 from google_sheets_fetcher import fetch_data_from_sheets
 from data_plotter import plot_data
-import simpleaudio as sa
 
 class App(QWidget):
     def __init__(self):
