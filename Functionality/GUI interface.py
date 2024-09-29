@@ -1,5 +1,13 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLineEdit, QPushButton, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import (
+    QApplication,
+    QWidget,
+    QVBoxLayout,
+    QLineEdit,
+    QPushButton,
+    QFileDialog,
+    QMessageBox,
+)
 from PyQt5.QtGui import QIcon
 import json
 import os
@@ -7,17 +15,18 @@ import logging
 from google_sheets_fetcher import fetch_data_from_sheets
 from data_plotter import plot_data
 
+
 class App(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('Google Sheets Data Plotter')
+        self.setWindowTitle("Google Sheets Data Plotter")
         self.setGeometry(100, 100, 800, 400)
 
         # Set the window icon
-        icon_path = 'icon.ico'
+        icon_path = "icon.ico"
         if os.path.exists(icon_path):
             self.setWindowIcon(QIcon(icon_path))
         else:
@@ -26,41 +35,42 @@ class App(QWidget):
         layout = QVBoxLayout()
 
         self.config_path = QLineEdit(self)
-        self.config_path.setPlaceholderText('Configuration File')
+        self.config_path.setPlaceholderText("Configuration File")
         layout.addWidget(self.config_path)
 
-        self.browse_config_btn = QPushButton('Browse', self)
+        self.browse_config_btn = QPushButton("Browse", self)
         self.browse_config_btn.clicked.connect(self.browse_config)
         layout.addWidget(self.browse_config_btn)
 
         self.sheet_names = QLineEdit(self)
-        self.sheet_names.setPlaceholderText('Sheet Names (comma-separated)')
+        self.sheet_names.setPlaceholderText("Sheet Names (comma-separated)")
         layout.addWidget(self.sheet_names)
 
         self.label = QLineEdit(self)
-        self.label.setPlaceholderText('Label for Plot')
+        self.label.setPlaceholderText("Label for Plot")
         layout.addWidget(self.label)
 
         self.directory = QLineEdit(self)
-        self.directory.setPlaceholderText('Directory to Save Plot')
+        self.directory.setPlaceholderText("Directory to Save Plot")
         layout.addWidget(self.directory)
 
-        self.browse_directory_btn = QPushButton('Browse', self)
+        self.browse_directory_btn = QPushButton("Browse", self)
         self.browse_directory_btn.clicked.connect(self.browse_directory)
         layout.addWidget(self.browse_directory_btn)
 
         self.file_name = QLineEdit(self)
-        self.file_name.setPlaceholderText('File Name for Plot')
+        self.file_name.setPlaceholderText("File Name for Plot")
         layout.addWidget(self.file_name)
 
-        self.run_btn = QPushButton('Run', self)
+        self.run_btn = QPushButton("Run", self)
         self.run_btn.clicked.connect(self.run)
         layout.addWidget(self.run_btn)
 
         self.setLayout(layout)
 
         # Apply styles
-        self.setStyleSheet("""
+        self.setStyleSheet(
+            """
             QWidget {
                 background-color: #2c3e50;
                 color: #ecf0f1;
@@ -85,17 +95,26 @@ class App(QWidget):
             QPushButton:hover {
                 background-color: #16a085;
             }
-        """)
+        """
+        )
 
     def browse_config(self):
         options = QFileDialog.Options()
-        file, _ = QFileDialog.getOpenFileName(self, "Select Configuration File", "", "JSON Files (*.json)", options=options)
+        file, _ = QFileDialog.getOpenFileName(
+            self,
+            "Select Configuration File",
+            "",
+            "JSON Files (*.json)",
+            options=options,
+        )
         if file:
             self.config_path.setText(file)
 
     def browse_directory(self):
         options = QFileDialog.Options()
-        directory = QFileDialog.getExistingDirectory(self, "Select Directory", options=options)
+        directory = QFileDialog.getExistingDirectory(
+            self, "Select Directory", options=options
+        )
         if directory:
             self.directory.setText(directory)
 
@@ -139,17 +158,24 @@ class App(QWidget):
             else:
                 logger.info(f"Directory already exists: {self.directory.text()}")
 
-            plot_data(data, plot_settings, self.label.text(), self.directory.text(), self.file_name.text())
+            plot_data(
+                data,
+                plot_settings,
+                self.label.text(),
+                self.directory.text(),
+                self.file_name.text(),
+            )
 
             logger.info("Program completed successfully")
             QMessageBox.information(self, "Success", "Plot created successfully!")
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
 
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    if os.path.exists('icon.ico'):
-        app.setWindowIcon(QIcon('icon.ico'))  # Set the taskbar icon
+    if os.path.exists("icon.ico"):
+        app.setWindowIcon(QIcon("icon.ico"))  # Set the taskbar icon
     else:
         print(f"Icon file not found...")
     ex = App()
