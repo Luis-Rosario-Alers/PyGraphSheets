@@ -1,7 +1,7 @@
 # created by virtualenv automatically
 *.env
-PyGraphSheets/secrets.env
-PyGraphSheets/.env
+Functionality/secrets.env
+Functionality/.env
 qodana.yaml
 tests/secrets.env
 tests/.env
@@ -9,3 +9,4 @@ tests/secrets_tests.env
 .venv/
 Logs/app.log
 **/config.json
+/config.json

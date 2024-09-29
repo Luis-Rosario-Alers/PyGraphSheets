@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Create a report to help PyGraphSheets to improve
+about: Create a report to help Functionality to improve
 title: "bug: "
 labels: "bug"
 assignees: ""
