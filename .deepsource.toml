@@ -13,8 +13,9 @@ dependency_file_paths = ["google-api-python-client", "google-auth-httplib2", "go
 [[analyzers]]
 name = "javascript"
 
-type_checker = "mypy"
-
+[[analyzers]]
+name = "test-coverage"
+enabled = true
 
 [[analyzers]]
 name = "shell"
