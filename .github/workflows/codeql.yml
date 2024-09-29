@@ -27,8 +27,12 @@ jobs:
         with:
           languages: python
 
-      - name: 📄 Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v3
-
       - name: 🚀 Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
+        with:
+          output: ../results
+
+      - name: 📄 Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ../results/*.sarif
