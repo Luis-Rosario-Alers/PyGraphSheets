@@ -1,20 +1,41 @@
----
-name: CodeQL
+name: "CodeQL"
 
 on:
   push:
+    branches: [ "main" ]
   pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "full-feature" ]
   schedule:
-    - cron: "30 1 * * 0"
+    - cron: '0 0 * * 0'
 
 jobs:
-  codeql:
-    name: 🏭 Scanning
+  analyze:
+    name: Analyze
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'python' ]
+        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
+        # Learn more: https://docs.github.com/en/code-security/code-scanning/using-codeql-code-scanning-with-your-project/configuring-codeql-cli
+
     steps:
-      - name: ⤵️ Check out code from GitHub
-        uses: actions/checkout@v2
-      - name: 🏗 Initialize CodeQL
-        uses: github/codeql-action/init@v1
-      - name: 🚀 Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2

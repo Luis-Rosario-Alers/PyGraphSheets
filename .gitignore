@@ -7,3 +7,5 @@ tests/secrets.env
 tests/.env
 tests/secrets_tests.env
 .venv/
+Logs/app.log
+config.json
