@@ -1,5 +1,4 @@
 # google_sheets_fetcher.py
-
 import logging
 
 import gspread

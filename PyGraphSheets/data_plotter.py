@@ -1,5 +1,4 @@
 # data_plotter.py
-
 import logging
 import os
 
