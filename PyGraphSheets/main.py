@@ -1,8 +1,9 @@
+import json
 import logging
 import os
-import json
-from google_sheets_fetcher import fetch_data_from_sheets
+
 from data_plotter import plot_data
+from google_sheets_fetcher import fetch_data_from_sheets
 
 # Read configuration from config.json
 with open("config.json") as config_file:
