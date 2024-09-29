@@ -10,17 +10,19 @@ logger = logging.getLogger(__name__)
 
 
 def fetch_data_from_sheets(file_path, sheet_id, sheet_names, columns):
-    """
-    Fetch data from Google Sheets.
+    """Fetch data from Google Sheets.
 
-    Args:
-        file_path (str): Path to the service account file.
-        sheet_id (str): ID of the Google Sheet.
-        sheet_names (list): List of sheet names to fetch data from.
-        columns (list): List of column indices to fetch data from.
+    :param file_path: Path to the service account file.
+    :type file_path: str
+    :param sheet_id: ID of the Google Sheet.
+    :type sheet_id: str
+    :param sheet_names: List of sheet names to fetch data from.
+    :type sheet_names: list
+    :param columns: List of column indices to fetch data from.
+    :type columns: list
+    :returns: Dictionary containing the fetched data.
+    :rtype: dict
 
-    Returns:
-        dict: Dictionary containing the fetched data.
     """
     data = {}
     try:

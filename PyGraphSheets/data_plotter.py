@@ -9,15 +9,19 @@ logger = logging.getLogger(__name__)
 
 
 def plot_data(data, plot_settings, label, directory, file_name):
-    """
-    Plot data and save the plot to a file.
+    """Plot data and save the plot to a file.
 
-    Args:
-        data (dict): Dictionary containing the data to plot.
-        plot_settings (dict): Dictionary containing plot settings.
-        label (str): Label for the plot.
-        directory (str): Directory to save the plot.
-        file_name (str): File name to save the plot.
+    :param data: Dictionary containing the data to plot.
+    :type data: dict
+    :param plot_settings: Dictionary containing plot settings.
+    :type plot_settings: dict
+    :param label: Label for the plot.
+    :type label: str
+    :param directory: Directory to save the plot.
+    :type directory: str
+    :param file_name: File name to save the plot.
+    :type file_name: str
+
     """
     for sheet_name, sheet_data in data.items():
         col1plot = list(map(int, filter(None, sheet_data[0][1:])))
