@@ -26,8 +26,7 @@ def fetch_data_from_sheets(file_path, sheet_id, sheet_names, columns):
     data = {}
     try:
         creds = Credentials.from_service_account_file(
-            file_path, scopes=["https://www.googleapis.com/auth/spreadsheets"]
-        )
+            file_path, scopes=["https://www.googleapis.com/auth/spreadsheets"])
         client = gspread.authorize(creds)
         sheet = client.open_by_key(sheet_id)
         available_sheets = sheet.worksheets()
@@ -37,7 +36,8 @@ def fetch_data_from_sheets(file_path, sheet_id, sheet_names, columns):
         for sheet_name in sheet_names:
             sheet_name = sheet_name.strip()
             if sheet_name not in available_sheet_names:
-                logger.error(f"Worksheet '{sheet_name}' not found in available sheets.")
+                logger.error(
+                    f"Worksheet '{sheet_name}' not found in available sheets.")
                 continue
 
             worksheet = sheet.worksheet(sheet_name)
