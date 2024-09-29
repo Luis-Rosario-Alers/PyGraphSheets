@@ -15,6 +15,9 @@ jobs:
   codeql:
     name: 🏭 Scanning
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: [ 'python' ]
     steps:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v4
@@ -25,7 +28,7 @@ jobs:
       - name: 🏗 Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: python
+          languages: ${{ matrix.language }}
 
       - name: 🚀 Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
