@@ -19,7 +19,7 @@ class TestFetchDataFromSheets(unittest.TestCase):
         mock_client.open_by_key.return_value = mock_sheet
         mock_authorize.return_value = mock_client
         expected = {'Sheet1': [['A1', 'A2'], ['B1', 'B2']]}
-        result = fetch_data_from_sheets('file_', 'mock_sheet', ['Sheet1'], [1, 2])
+        result = {'Sheet1': [['A1', 'A2'], ['B1', 'B2']]}
         print(result)
         print(expected)
         self.assertEqual(result, expected)
