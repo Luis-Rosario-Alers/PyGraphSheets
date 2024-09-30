@@ -1,5 +1,3 @@
-# data_plotter.py
-
 import logging
 import matplotlib.pyplot as plt
 import os
@@ -7,42 +5,62 @@ import os
 logger = logging.getLogger(__name__)
 
 
-def plot_data(data, plot_settings, label, directory, file_name):
-    """
-    Plot data and save the plot to a file.
+def plot_data(data, plot_settings, label, directory, file_name, axes, graph_type, x_col_indices, y_col_indices):
+    for sheet_name, sheet_data in data.items():
+        for x_col_index in x_col_indices:
+            for y_col_index in y_col_indices:
+                if len(sheet_data) <= max(x_col_index, y_col_index):
+                    continue  # Skip if there are not enough columns
 
-    Args:
-        data (dict): Dictionary containing the data to plot.
-        plot_settings (dict): Dictionary containing plot settings.
-        label (str): Label for the plot.
-        directory (str): Directory to save the plot.
-        file_name (str): File name to save the plot.
-    """
-    for _, sheet_data in data.items():
-        col1plot = list(map(int, filter(None, sheet_data[0][1:])))
-        col3plot = list(map(int, filter(None, sheet_data[1][1:])))
-        plt.plot(col1plot, col3plot, label=label)
+                x_data = sheet_data[x_col_index][1:]  # Specified column as x-axis, skip header
+                y_data = sheet_data[y_col_index][1:]  # Specified column as y-axis, skip header
 
-    plt.xlabel(plot_settings["xlabel"])
-    plt.ylabel(plot_settings["ylabel"])
-    plt.title(plot_settings["title"])
-    plt.legend(
+                # Convert x_data and y_data to float for sorting
+                x_data = list(map(float, x_data))
+                y_data = list(map(float, y_data))
+
+                # Sort the data based on x_data
+                sorted_data = sorted(zip(x_data, y_data))
+                x_data, y_data = zip(*sorted_data)
+
+                if graph_type == "Line":
+                    axes.plot(
+                        x_data,
+                        y_data,
+                        label=f"{sheet_name} {label} (X: {x_col_index}, Y: {y_col_index})",
+                        linestyle=plot_settings.get("line_style", "-"),
+                        color=plot_settings.get("line_color", "blue"),
+                        linewidth=plot_settings.get("line_width", 1),
+                        marker=plot_settings.get("marker", "")
+                    )
+                elif graph_type == "Bar":
+                    axes.bar(
+                        x_data,
+                        y_data,
+                        label=f"{sheet_name} {label} (X: {x_col_index}, Y: {y_col_index})",
+                        color=plot_settings.get("line_color", "blue")
+                    )
+                elif graph_type == "Scatter":
+                    axes.scatter(
+                        x_data,
+                        y_data,
+                        label=f"{sheet_name} {label} (X: {x_col_index}, Y: {y_col_index})",
+                        color=plot_settings.get("line_color", "blue"),
+                        marker=plot_settings.get("marker", "o")
+                    )
+
+    axes.set_xlabel(plot_settings["xlabel"])
+    axes.set_ylabel(plot_settings["ylabel"])
+    axes.set_title(plot_settings["title"])
+    axes.legend(
         loc=plot_settings["legend_loc"],
         fontsize=plot_settings["legend_fontsize"],
         title=plot_settings["legend_title"],
         title_fontsize=plot_settings["legend_title_fontsize"],
         shadow=plot_settings["legend_shadow"],
-        frameon=plot_settings["legend_frameon"],
+        frameon=plot_settings["legend_frameon"]
     )
+    if plot_settings.get("grid", False):
+        axes.grid(True)
 
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-        logger.info(f"Directory created: {directory}")
-    else:
-        logger.info(f"Directory already exists: {directory}")
-
-    file_path = os.path.join(directory, file_name)
-    plt.savefig(file_path)
-    logger.info(f"Plot saved to {file_path}")
-    print(f"Plot saved to {file_path}")
-    plt.show()
+    return axes
